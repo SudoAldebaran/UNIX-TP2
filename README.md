@@ -314,3 +314,51 @@ Afficher la liste détaillée des fichiers à l'écran et l'enregistre dans le f
 >> ls -l | tee liste | wc -l
 
 Affiche la liste détaillée des fichiers à l'ecran, l'enregistre dans liste, et affiche le nombre de lignes
+
+# 5 - Journal système rsyslog
+
+### rsyslog
+
+>> ps aux | grep syslog
+
+Resultat :
+
+root         575  0.0  0.1 222128  3832 ?        Ssl  22:04   0:00 /usr/sbin/rsyslogd -n -iNONE
+
+rsyslog est bien lancé. Son PID est 575
+
+>> /var/log/syslog 
+
+C'est le fichier où rsyslog écrit la plupart des messages systeme standards, y compris ceux provenant des services
+
+>> /var/log/auth.log 
+
+Pour les messages liés à l'authentification (connexions ssh, sudo, etc...)
+
+/var/log/kern.log : contient les messages relatifs au noyau (kernel)
+/var/log/dmesg : contient les messages produits pendant le démarrage du système
+/var/log/mail.log : utilisé pour enregistrer les messages relatifs aux services de mails
+/var/log/daemon.log : enregistre les messages provenant des daemons en arrière-plan
+
+### cron
+
+Le service cron est utilisé pour exécuter des tâches planifiées automatiquement à des intervalles réguliers. Les utilisateurs peuvent définir des commandes ou des scripts à exécuter à des heures spécifiques ou à des périodes récurrentes, comme tous les jours ou chaque semaine.
+
+tail -f affiche en temps réel les dernières lignes d'un fichier. Souvent utilisée pour surveiller des fichiers de log, car elle continue d'afficher les nouvelles lignes ajoutées au fichier au fur et à mesure qu'elles sont écrites
+
+En se connectant à la VM depuis un autre terminal, affichage de la connexion dans le journal : 
+
+Oct 15 22:39:21 serveur1 sshd[729]: Accepted publickey for root from 172.16.233.1 port 61849 ssh2: ED25519 SHA256:Zk1jY8AoCwjdlBeKw30lkRpFSH0EDeC7M27ZqgjrR1I
+Oct 15 22:39:21 serveur1 sshd[729]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+Oct 15 22:39:21 serveur1 systemd-logind[541]: New session 5 of user root.
+Oct 15 22:39:21 serveur1 systemd[1]: Started session-5.scope - Session 5 of User root.
+Oct 15 22:39:21 serveur1 sshd[729]: pam_env(sshd:session): deprecated reading of user environment enabled
+
+ /etc/logrotate.conf est un fichier de configuration utilisé par le service logrotate, qui gère la rotation, la compression, la suppression et l'envoi par email des fichiers journaux sur linux
+
+## dmesg
+
+La commande dmesg affiche que le cpu de ma machine est de type ARM (Macbook M2)
+
+Le modèle de carte réseaux détecté est le suivant : Intel(R) PRO/1000 Network Driver
+
